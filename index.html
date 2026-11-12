@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru" data-font="1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mad System</title>
+<meta name="description" content="Mad System. Карман на четырех кнопках, который пристегивается к вещам">
+<meta name="theme-color" content="#F5E6CF">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141414'/%3E%3Cg fill='%23F5E6CF'%3E%3Ccircle cx='11' cy='11' r='3.2'/%3E%3Ccircle cx='21' cy='11' r='3.2'/%3E%3Ccircle cx='11' cy='21' r='3.2'/%3E%3Ccircle cx='21' cy='21' r='3.2'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="#hero" aria-label="Mad System">
+    <span class="dots4" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span>Mad System</span>
+  </a>
+  <div class="lang" role="group" aria-label="Язык / Language">
+    <button type="button" data-lang="ru" aria-pressed="true">RU</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main>
+
+<!-- 1. HERO: tear the pocket off -->
+<section class="hero" id="hero">
+  <div class="hero-stage">
+    <div class="hero-guy">
+      <img class="guy-a" src="assets/guy/b1.png" alt="" draggable="false">
+      <img class="guy-b" src="assets/guy/b2.png" alt="" draggable="false">
+      <p class="bubble bubble-right" id="hero-say" data-ru="Йо. Оторви себе кусочек" data-en="Yo. Tear a piece off for yourself">Йо. Оторви себе кусочек</p>
+    </div>
+
+    <div class="hero-tee" id="hero-tee">
+      <img class="tee-img" id="tee-img" src="assets/ink/tee.png" alt="" draggable="false">
+      <img class="pocket" id="hero-pocket" src="assets/ink/pocket-front.png" alt="" draggable="false">
+      <span class="pull" id="pull" aria-hidden="true">
+        <svg viewBox="0 0 90 50"><path d="M8 44 C14 20 40 10 80 12 M80 12 l-14 -8 M80 12 l-11 11"/></svg>
+        <b data-ru="тяни" data-en="pull">тяни</b>
+      </span>
+    </div>
+
+    <div class="bag-slot" id="bag-slot" aria-live="polite">
+      <span class="bag-slot-count" id="bag-count">0</span>
+      <span class="bag-slot-label" data-ru="твои карманы" data-en="your pockets">твои карманы</span>
+    </div>
+  </div>
+  <p class="hero-scroll" data-ru="Дальше вниз" data-en="Keep scrolling">Дальше вниз</p>
+</section>
+
+<!-- 2. PROBLEM -->
+<section class="load" id="load">
+  <div class="load-stage">
+    <img class="load-guy" src="assets/guy/a3.png" alt="" draggable="false">
+    <p class="bubble bubble-right load-say" data-ru="Хочу выйти налегке. А выходит вот так" data-en="I want to leave the house light. And it goes like this">Хочу выйти налегке. А выходит вот так</p>
+    <img class="thing th1" src="assets/ink/phone.png" alt="" data-depth="0.9">
+    <img class="thing th2" src="assets/ink/keys.png" alt="" data-depth="0.5">
+    <img class="thing th3" src="assets/ink/cardholder.png" alt="" data-depth="1.2">
+    <img class="thing th4" src="assets/ink/passport.png" alt="" data-depth="0.7">
+    <img class="thing th5" src="assets/ink/earbuds.png" alt="" data-depth="1.4">
+    <img class="thing th6" src="assets/ink/lighter.png" alt="" data-depth="0.4">
+    <img class="thing th7" src="assets/ink/cash.png" alt="" data-depth="1.0">
+  </div>
+</section>
+
+<!-- 3. POCKET, dark -->
+<section class="pk" id="pk">
+  <div class="pk-pin">
+    <canvas id="pk-words"></canvas>
+    <p class="pk-cap" id="pk-cap" data-ru="Все, что ты берешь с собой" data-en="Everything you carry">Все, что ты берешь с собой</p>
+
+    <div class="pk-obj" id="pk-obj">
+      <canvas id="pk-rot" width="972" height="522"></canvas>
+      <i class="bam" style="left:40.9%;top:44.1%"></i>
+      <i class="bam" style="left:58.2%;top:43.7%"></i>
+      <i class="bam" style="left:42.4%;top:68.6%"></i>
+      <i class="bam" style="left:56.5%;top:68.5%"></i>
+      <img class="pk-item it-side" src="assets/line/phone.png" alt="">
+      <img class="pk-item it-top" src="assets/line/keys.png" alt="">
+      <img class="pk-item it-top" src="assets/line/cardholder.png" alt="">
+      <img class="pk-item it-top" src="assets/line/earbuds.png" alt="">
+      <img class="pk-item it-top" src="assets/line/lighter.png" alt="">
+    </div>
+
+    <div class="pk-text" id="pk-t1">
+      <h2 data-ru="Четыре кнопки" data-en="Four snaps">Четыре кнопки</h2>
+      <p data-ru="Щелк, и он на шортах. Щелк, и на футболке. Один карман на весь гардероб" data-en="Click, it is on the shorts. Click, it is on the tee. One pocket for the whole wardrobe">Щелк, и он на шортах. Щелк, и на футболке. Один карман на весь гардероб</p>
+    </div>
+    <div class="pk-text" id="pk-t2">
+      <h2 data-ru="Два входа" data-en="Two ways in">Два входа</h2>
+      <p data-ru="Телефон заходит сбоку, его не надо выкапывать. Ключи и карты падают сверху и его не царапают" data-en="The phone slides in from the side, no digging. Keys and cards drop in from the top and never scratch it">Телефон заходит сбоку, его не надо выкапывать. Ключи и карты падают сверху и его не царапают</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. FILM -->
+<section class="film" id="film">
+  <div class="player" id="player">
+    <div class="stage" id="stage">
+      <div class="spr spr-shorts" id="f-shorts"></div>
+      <div class="spr spr-tee" id="f-tee"></div>
+      <div class="f-pocket" id="f-pocket"><div class="f-flip" id="f-flip">
+        <img class="pf" src="assets/ink/pocket-front.png" alt="">
+        <img class="pb" src="assets/ink/pocket-back.png" alt="">
+      </div></div>
+      <i class="f-ring" id="f-ring"></i>
+      <div class="f-logo" id="f-logo"><span class="dots4"><i></i><i></i><i></i><i></i></span></div>
+    </div>
+
+    <button class="cover" id="cover" type="button">
+      <span class="cover-btn glass-dark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+      <span class="cover-label" data-ru="Как это работает, 12 секунд со звуком" data-en="How it works, 12 seconds with sound">Как это работает, 12 секунд со звуком</span>
+    </button>
+
+    <div class="controls glass-dark" id="controls">
+      <button type="button" id="btn-restart" aria-label="Сначала"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button type="button" id="btn-play" aria-label="Пауза">
+        <svg viewBox="0 0 24 24" id="ico-pause"><path d="M8 5v14M16 5v14"/></svg>
+        <svg viewBox="0 0 24 24" id="ico-play" class="solid" hidden><path d="M8 5.5v13l11-6.5z"/></svg>
+      </button>
+      <button type="button" id="btn-sound" aria-label="Звук" aria-pressed="true">
+        <svg viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="wave" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/></svg>
+      </button>
+      <span class="ring" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" class="ring-bg"/><circle cx="12" cy="12" r="8" class="ring-fg" id="ring-fg"/></svg></span>
+    </div>
+  </div>
+</section>
+
+<!-- 5. COMIC -->
+<section class="manual" id="manual">
+  <div class="manual-head">
+    <h2 id="page-title">Комикс</h2>
+    <p id="page-text"></p>
+  </div>
+  <div class="book-wrap">
+    <div class="book" id="book">
+      <div class="page page-cover" data-density="hard">
+        <span class="dots4" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <h3>Mad System</h3>
+        <p data-ru="Как носить вещи. Комикс" data-en="How to carry your stuff. A comic">Как носить вещи. Комикс</p>
+      </div>
+      <div class="page"><img src="assets/comic/comic-1.jpg" alt="" draggable="false"></div>
+      <div class="page"><img src="assets/comic/comic-2.jpg" alt="" draggable="false"></div>
+      <div class="page"><img src="assets/comic/comic-3.jpg" alt="" draggable="false"></div>
+      <div class="page page-wanted">
+        <div class="wanted">
+          <strong data-ru="Разыскивается" data-en="Wanted">Разыскивается</strong>
+          <img src="assets/ink/pocket-front.png" alt="" draggable="false">
+        </div>
+        <span class="tag">out of stock</span>
+        <p data-ru="Пока это прототипы. Первая партия в планах" data-en="Prototypes for now. The first batch is planned">Пока это прототипы. Первая партия в планах</p>
+      </div>
+      <div class="page page-cover page-back" data-density="hard">
+        <span class="dots4" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </div>
+    </div>
+  </div>
+  <div class="pager glass-dark">
+    <button type="button" id="prev" aria-label="Назад"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span id="page-num">1 / 4</span>
+    <button type="button" id="next" aria-label="Вперед"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+</section>
+
+<!-- 6. PIECES -->
+<section class="pieces" id="pieces">
+  <div class="swap-row">
+    <div class="swap-guy">
+      <img src="assets/guy/b4.png" alt="" draggable="false">
+      <p class="bubble bubble-right" data-ru="Жми на вещь. Карман перепрыгнет" data-en="Tap a piece. The pocket jumps over">Жми на вещь. Карман перепрыгнет</p>
+    </div>
+    <div class="swap" id="swap">
+      <button type="button" class="swap-item" id="sw-tee" data-ru-label="Футболка" data-en-label="Tee" aria-label="Футболка"><img src="assets/ink/tee.png" alt="" draggable="false"></button>
+      <button type="button" class="swap-item" id="sw-shorts" data-ru-label="Шорты" data-en-label="Shorts" aria-label="Шорты"><img src="assets/ink/shorts.png" alt="" draggable="false"></button>
+      <img class="swap-pocket" id="sw-pocket" src="assets/ink/pocket-front.png" alt="" draggable="false">
+    </div>
+  </div>
+
+  <div class="real">
+    <p class="real-label" data-ru="А так это выглядит в жизни. Прототипы, сшиты руками" data-en="And this is how it looks in real life. Prototypes, sewn by hand">А так это выглядит в жизни. Прототипы, сшиты руками</p>
+    <div class="real-row">
+      <img src="assets/photo/tee-bag.png" alt="" loading="lazy">
+      <img src="assets/photo/shorts-bag.png" alt="" loading="lazy">
+      <img src="assets/photo/bag-02.png" alt="" loading="lazy">
+      <img src="assets/photo/bag-01.png" alt="" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- 7. POCKETS -->
+<section class="lineup" id="lineup">
+  <div class="lineup-head">
+    <img src="assets/guy/a4.png" alt="" draggable="false">
+    <p class="bubble bubble-right" data-ru="Рисую новые. Форма одна, характер разный" data-en="Drawing new ones. One shape, different characters">Рисую новые. Форма одна, характер разный</p>
+  </div>
+  <ul class="cards" id="cards">
+    <li><img src="assets/pockets/c1.jpg" alt="" loading="lazy"><span data-ru="Нейлон, крашенный в изделии" data-en="Garment-dyed nylon">Нейлон, крашенный в изделии</span></li>
+    <li><img src="assets/pockets/c2.jpg" alt="" loading="lazy"><span data-ru="Линза" data-en="Lens">Линза</span></li>
+    <li><img src="assets/pockets/c3.jpg" alt="" loading="lazy"><span data-ru="Белая краска" data-en="White paint">Белая краска</span></li>
+    <li><img src="assets/pockets/c4.jpg" alt="" loading="lazy"><span data-ru="Лак" data-en="Patent">Лак</span></li>
+    <li><img src="assets/pockets/c5.jpg" alt="" loading="lazy"><span data-ru="Вязка" data-en="Knit">Вязка</span></li>
+    <li><img src="assets/pockets/c6.jpg" alt="" loading="lazy"><span data-ru="Резина и деним" data-en="Rubber and denim">Резина и деним</span></li>
+    <li><img src="assets/pockets/c7.jpg" alt="" loading="lazy"><span data-ru="Ворс" data-en="Fleece">Ворс</span></li>
+    <li><img src="assets/pockets/c8.jpg" alt="" loading="lazy"><span data-ru="Пластик" data-en="Plastic">Пластик</span></li>
+  </ul>
+  <p class="lineup-note" data-ru="Это эскизы. Сшиты пока два, они выше" data-en="These are sketches. Two are sewn so far, see above">Это эскизы. Сшиты пока два, они выше</p>
+</section>
+
+<!-- 8. FINAL -->
+<section class="final" id="final">
+  <div class="final-row">
+    <img class="final-guy" src="assets/guy/a5.png" alt="" draggable="false">
+    <div class="final-say">
+      <p class="bubble bubble-right" data-ru="Хочешь такой? Напиши" data-en="Want one? Message me">Хочешь такой? Напиши</p>
+      <a class="cta" href="https://t.me/damnwhylit" target="_blank" rel="noopener" data-ru="Написать в телеграм" data-en="Message on Telegram">Написать в телеграм</a>
+      <p class="sign" data-ru="Mad System делает Даниил Муравьев, Москва" data-en="Mad System is made by Daniil Muravev, Moscow">Mad System делает Даниил Муравьев, Москва</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- temporary: font picker, remove once chosen -->
+<div class="fontpick glass-dark" role="group" aria-label="Шрифт">
+  <span data-ru="шрифт" data-en="font">шрифт</span>
+  <button type="button" data-font="1" aria-pressed="true">1</button>
+  <button type="button" data-font="2" aria-pressed="false">2</button>
+  <button type="button" data-font="3" aria-pressed="false">3</button>
+</div>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="vendor/page-flip.browser.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
