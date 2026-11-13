@@ -11,7 +11,7 @@
   gsap.registerPlugin(ScrollTrigger);
 
   /* ---------------------------------------------------------------- */
-  /* Language + temporary font picker                                  */
+  /* Language                                                          */
   /* ---------------------------------------------------------------- */
   var lang = 'ru';
   try { lang = localStorage.getItem('mad-lang') || 'ru'; } catch (e) {}
@@ -31,14 +31,6 @@
       applyLang();
     });
   });
-  $$('.fontpick button').forEach(function (b) {
-    b.addEventListener('click', function () {
-      document.documentElement.setAttribute('data-font', b.getAttribute('data-font'));
-      $$('.fontpick button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-      setTimeout(function () { ScrollTrigger.refresh(); }, 300);
-    });
-  });
-
   /* ---------------------------------------------------------------- */
   /* Sound: tiny synth, no audio files                                 */
   /* ---------------------------------------------------------------- */
@@ -114,8 +106,12 @@
     var SAY = {
       a: ['Йо. Оторви себе кусочек', 'Yo. Tear a piece off for yourself'],
       b: ['Вот так. Теперь он твой', 'There. It is yours now'],
-      c: ['Забрал. Листай, расскажу зачем он', 'Got it. Scroll, I will tell you what it is for']
+      c: ['Забрал. Их тут восемь. Или листай дальше', 'Got it. There are eight here. Or keep scrolling'],
+      d: ['Все восемь твои. Теперь листай', 'All eight are yours. Now scroll']
     };
+    var SKINS = ['assets/ink/pocket-front.webp'], skin = 0;
+    for (var s = 1; s <= 8; s++) SKINS.push('assets/pockets/v' + s + '.webp');
+    SKINS.slice(1).forEach(function (u) { var p = new Image(); p.src = u; });
     function speak(k) {
       say.setAttribute('data-ru', SAY[k][0]); say.setAttribute('data-en', SAY[k][1]);
       say.textContent = SAY[k][lang === 'ru' ? 0 : 1];
@@ -169,9 +165,11 @@
         y: '+=' + (b.top + b.height / 2 - a.top - a.height / 2),
         scale: 0.16, rotation: 24, duration: 0.75, ease: 'power2.in', overwrite: true,
         onComplete: function () {
-          got += 1; count.textContent = String(got); slot.classList.add('got');
+          got = Math.min(got + 1, 8); count.textContent = String(got); slot.classList.add('got');
+          skin = skin % 8 + 1;                      // drawn one first, then the eight variations in a loop
+          pocket.src = SKINS[skin]; pocket.classList.add('is-photo');
           gsap.fromTo(count, { scale: 1.4 }, { scale: 1, duration: 0.7, ease: 'elastic.out(1,0.4)' });
-          sfx.pop(); speak('c');
+          sfx.pop(); speak(got >= 8 ? 'd' : 'c');
           gsap.set(pocket, { x: 0, y: 0, scale: 0.5, rotation: 0, opacity: 0 });
           gsap.to(pocket, { scale: 1, opacity: 1, duration: 0.7, delay: 1, ease: 'back.out(2)', onComplete: function () { detached = false; busy = false; } });
         }
@@ -444,6 +442,16 @@
       prev.setAttribute('aria-label', lang === 'ru' ? 'Назад' : 'Previous page');
       next.setAttribute('aria-label', lang === 'ru' ? 'Вперед' : 'Next page');
     }
+    function peek() {
+      var fc = book.getFlipController && book.getFlipController();
+      if (!fc || reduced || book.getCurrentPageIndex() !== 0) return;
+      var w = el.offsetWidth, h = el.offsetHeight, p = { x: w - 6, y: h - 6 };
+      gsap.timeline()
+        .to(p, { x: w * 0.8, y: h * 0.8, duration: 0.9, ease: 'sine.inOut', onUpdate: function () { try { fc.fold({ x: p.x, y: p.y }); } catch (e) {} } })
+        .to(p, { x: w * 0.86, y: h * 0.84, duration: 0.5, ease: 'sine.inOut', yoyo: true, repeat: 1, onUpdate: function () { try { fc.fold({ x: p.x, y: p.y }); } catch (e) {} } })
+        .call(function () { try { fc.stopMove(); } catch (e) {} });
+    }
+    ScrollTrigger.create({ trigger: el, start: 'top 55%', once: true, onEnter: function () { setTimeout(peek, 350); } });
     book.on('flip', update);
     book.on('changeOrientation', update);
     prev.addEventListener('click', function () { book.flipPrev(); });
@@ -460,7 +468,12 @@
     if (!wrap) return;
     var el = { tee: $('#sw-tee'), shorts: $('#sw-shorts') };
     var AT = { tee: [0.313, 0.845, 0.31], shorts: [0.862, 0.733, 0.36] };
-    var where = 'tee', moving = false;
+    var where = 'tee', moving = false, ring = $('#sw-target'), pulse = null;
+    function hint() {
+      var t = target(where === 'tee' ? 'shorts' : 'tee');
+      gsap.set(ring, { x: t.x, y: t.y });
+      if (!pulse && !reduced) pulse = gsap.fromTo(ring, { scale: 0.45, opacity: 0.9 }, { scale: 1.7, opacity: 0, duration: 1.5, ease: 'power2.out', repeat: -1, repeatDelay: 0.3 });
+    }
     function target(k) {
       var r = el[k].getBoundingClientRect(), c = wrap.getBoundingClientRect();
       return { x: r.left - c.left + r.width * AT[k][0], y: r.top - c.top + r.height * AT[k][1], w: r.width * AT[k][2] };
@@ -468,6 +481,7 @@
     function place() {
       var t = target(where);
       gsap.set(pocket, { xPercent: -50, yPercent: -50, x: t.x, y: t.y, width: t.w, rotation: 0, scaleX: 1, scaleY: 1 });
+      hint();
     }
     function go(k) {
       audio();
@@ -476,10 +490,10 @@
         gsap.fromTo(pocket, { rotation: -7 }, { rotation: 0, duration: 0.8, ease: 'elastic.out(1,0.3)' });
         return;
       }
-      moving = true; where = k;
+      moving = true; where = k; gsap.set(ring, { opacity: 0 }); if (pulse) pulse.pause();
       var t = target(k), dir = k === 'shorts' ? 1 : -1;
       sfx.click();
-      gsap.timeline({ onComplete: function () { moving = false; } })
+      gsap.timeline({ onComplete: function () { moving = false; hint(); if (pulse) pulse.restart(); } })
         .to(pocket, { x: t.x, width: t.w, duration: 0.8, ease: 'power2.inOut' }, 0)
         .to(pocket, { y: Math.min(t.y, gsap.getProperty(pocket, 'y')) - 90, rotation: 10 * dir, duration: 0.42, ease: 'sine.out' }, 0)
         .to(pocket, { y: t.y, rotation: 0, duration: 0.38, ease: 'sine.in' }, 0.42)

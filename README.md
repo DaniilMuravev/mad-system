@@ -9,7 +9,7 @@ git clone https://github.com/DaniilMuravev/mad-system.git
 cd mad-system
 # скопируй сюда содержимое архива с заменой
 git add .
-git commit -m "v2"
+git commit -m "v3"
 git push
 ```
 
@@ -24,4 +24,3 @@ Vercel: Add New → Project → Import `mad-system` → Framework Preset: Other 
 - `assets/guy` позы, `assets/ink` вещи тушью, `assets/rot` 25 кадров поворота кармана,
   `assets/film` шаги шорт и футболки, `assets/pockets` эскизы карманов, `assets/photo` реальные вещи
 
-Переключатель шрифта слева внизу временный: блок `.fontpick` в `index.html`.
